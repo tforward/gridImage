@@ -1,0 +1,50 @@
+/* CSS */
+
+html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  .holder {
+  }
+
+  .frame {
+    display: flex;
+    height: 100%;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    display: grid;
+    grid-gap: 1vmin;
+    grid-template-columns: repeat(5, 1fr [col-start]);
+    grid-auto-flow: row;
+  }
+
+  .item {
+    /* We center the contents of these items. You can also do this with flexbox too! */
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    border: 1vmin solid rgba(0, 0, 0, 0.03);
+    border-radius: 1vmin;
+    width: 15vmin;
+    height: 15vmin;
+    font-size: 10vmin;
+    cursor: hand;
+  }
+  

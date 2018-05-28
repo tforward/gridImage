@@ -1,0 +1,40 @@
+{
+  "name": "gridimage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tforward/gridImage.git"
+  },
+  "author": "Tristan Forward",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tforward/gridImage/issues"
+  },
+  "homepage": "https://github.com/tforward/gridImage#readme",
+  "dependencies": {
+    "randomcolor": "^0.5.3"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "prettier": "^1.12.1",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.9.1",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
