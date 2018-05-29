@@ -26,17 +26,29 @@ myApp.initApplication = function init() {
   function eventController(args, e) {
     // Only Passes events of with tagNames defined in the array
     const id = getTargetId(e, args.tags);
+    const min = 1;
+    const max = 25;
+    const num = getRandomNumber(min, max);
+    const obj2 = myApp.elems[num];
 
     if (id !== undefined) {
       const obj = myApp.elems[id];
-      const obj1 = myApp.elems[1];
       if (e.type === "mouseover") {
         obj.getRandomColour();
+        obj2.getRandomColour();
       } else if (e.type === "mouseout") {
         obj.getRandomHue();
+        obj2.getRandomHue();
       } else if (e.type === "click") {
         obj.getRandomColour();
-        obj1.getRandomColour();
+        for (let i = 0; i < max; i += 1) {
+          const num3 = getRandomNumber(min, max);
+          const obj3 = myApp.elems[num3];
+          timeout(3, obj3.getRandomColour());
+          setTimeout(() => {
+            obj3.getRandomColour();
+          }, 1500);
+        }
       }
     }
   }
@@ -45,9 +57,12 @@ myApp.initApplication = function init() {
 };
 
 myApp.main = function main() {
-  console.log("hello4");
   divCreator();
 };
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 function divCreator() {
   divMaker(25);
@@ -71,6 +86,15 @@ function divCreator() {
   }
 }
 
+function timeout(num, func, i = 0, delay = 500) {
+  let n = i;
+  n += 1;
+  func();
+  if (n < num) setTimeout(timeout, delay, num, func, n);
+}
+
+timeout(3, hello);
+
 function DivBlockDelegator() {
   const divBlock = Object.create(ElemDelegator());
 
@@ -89,13 +113,13 @@ function DivBlockDelegator() {
 function ElemDelegator() {
   // This is the base Delegator "Class" for a element
   const Element = Object.create(null);
-  // Use create for creating new elements only
+  // Use create for creating new elements
   Element.create = function create(type, elemId) {
     this.elem = document.createElement(type);
     this.elem.id = elemId;
     this.id = elemId;
   };
-  // Use init for working with existing elements only
+  // Use init for working with existing elements
   Element.init = function init(elemId) {
     this.id = elemId;
     this.elem = document.getElementById(this.id);
@@ -104,8 +128,15 @@ function ElemDelegator() {
 }
 
 // ======================================================================
-// Colour Utilities
+// Utilities
 // ======================================================================
+
+function timeout(num, func, i = 0, delay = 500) {
+  let n = i;
+  n += 1;
+  func();
+  if (n < num) setTimeout(timeout, delay, num, func, n);
+}
 
 function getRGBNums(string) {
   let rgb = string;
