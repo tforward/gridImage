@@ -25,7 +25,6 @@ export function SubscribersDelegator() {
     // define them just using comma seperator
     const keys = Object.keys(this.elems);
     for (let i = 0; i < keys.length; i += 1) {
-      console.log(this.elems[keys[i]]);
       this.elems[keys[i]][func](...args);
     }
   };

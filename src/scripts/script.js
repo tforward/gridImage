@@ -40,8 +40,9 @@ myBase.initApplication = function init() {
         obj.getRandomHue();
         timeout(5, setRandomHue.bind(null, min, max), 0, 300);
       } else if (e.type === "click") {
-        obj.getRandomColour();
+        myApp.broadcast("getRandomColour");
         timeout(max, setRandomColour.bind(null, min, max), 0, 300, "desc", 20, 100);
+        console.log(myApp);
       }
     }
   }
@@ -86,12 +87,9 @@ function divCreator() {
       // div.elem.textContent = i;
       div.elem.style.backgroundColor = tones[i];
       grid.appendChild(div.elem);
-      // myApp.elems[div.id] = div;
       myApp.subscribe(div.id, div);
     }
   }
-  // TODO IM HERE
-  console.log(myApp.broadcast("getRandomColour"));
 }
 
 function DivBlockDelegator() {

@@ -46,5 +46,7 @@ html {
     height: 15vmin;
     font-size: 10vmin;
     cursor: hand;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
   }
   
