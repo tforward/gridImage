@@ -4,11 +4,15 @@ import css_ from "../css/styles.css";
 
 import { EventDelegator, getTargetId } from "./olooEvent";
 
+import { SubscribersDelegator } from "./olooObserver";
+
 const randomColor = require("randomcolor");
 
-const myApp = Object.create(null);
+const myBase = Object.create(null);
+const myApp = SubscribersDelegator();
+myApp.init();
 
-myApp.initApplication = function init() {
+myBase.initApplication = function init() {
   const eventSandbox = EventDelegator();
   eventSandbox.initEvent("eventSandbox", "mouseover", { tags: ["DIV"] });
   eventSandbox.addEvent(eventController);
@@ -21,44 +25,45 @@ myApp.initApplication = function init() {
   eventSandbox3.initEvent("eventSandbox", "click", { tags: ["DIV"] });
   eventSandbox3.addEvent(eventController);
 
-  myApp.elems = Object.create(null);
-
   function eventController(args, e) {
     // Only Passes events of with tagNames defined in the array
     const id = getTargetId(e, args.tags);
     const min = 1;
     const max = 25;
-    const num = getRandomNumber(min, max);
-    const obj2 = myApp.elems[num];
 
     if (id !== undefined) {
       const obj = myApp.elems[id];
       if (e.type === "mouseover") {
         obj.getRandomColour();
-        obj2.getRandomColour();
+        timeout(5, setRandomColour.bind(null, min, max), 0, 300);
       } else if (e.type === "mouseout") {
         obj.getRandomHue();
-        obj2.getRandomHue();
+        timeout(5, setRandomHue.bind(null, min, max), 0, 300);
       } else if (e.type === "click") {
         obj.getRandomColour();
-        for (let i = 0; i < max; i += 1) {
-          const num3 = getRandomNumber(min, max);
-          const obj3 = myApp.elems[num3];
-          timeout(3, obj3.getRandomColour());
-          setTimeout(() => {
-            obj3.getRandomColour();
-          }, 1500);
-        }
+        timeout(max, setRandomColour.bind(null, min, max), 0, 300, "desc", 20, 100);
       }
     }
   }
 
-  myApp.main();
+  myBase.main();
 };
 
-myApp.main = function main() {
+myBase.main = function main() {
   divCreator();
 };
+
+function setRandomHue(min, max) {
+  const num = getRandomNumber(min, max);
+  const obj = myApp.elems[num];
+  obj.getRandomHue();
+}
+
+function setRandomColour(min, max) {
+  const num = getRandomNumber(min, max);
+  const obj = myApp.elems[num];
+  obj.getRandomColour();
+}
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -81,19 +86,13 @@ function divCreator() {
       // div.elem.textContent = i;
       div.elem.style.backgroundColor = tones[i];
       grid.appendChild(div.elem);
-      myApp.elems[div.id] = div;
+      // myApp.elems[div.id] = div;
+      myApp.subscribe(div.id, div);
     }
   }
+  // TODO IM HERE
+  console.log(myApp.broadcast("getRandomColour"));
 }
-
-function timeout(num, func, i = 0, delay = 500) {
-  let n = i;
-  n += 1;
-  func();
-  if (n < num) setTimeout(timeout, delay, num, func, n);
-}
-
-timeout(3, hello);
 
 function DivBlockDelegator() {
   const divBlock = Object.create(ElemDelegator());
@@ -131,11 +130,24 @@ function ElemDelegator() {
 // Utilities
 // ======================================================================
 
-function timeout(num, func, i = 0, delay = 500) {
+function timeout(num, func, i = 0, delay = 1000, type = "", amount = 20, limit = 100) {
   let n = i;
+  let newDelay = delay;
+
+  if (type === "desc") {
+    newDelay -= amount;
+    if (newDelay <= limit) {
+      newDelay = limit;
+    }
+  } else if (type === "asc") {
+    newDelay += amount;
+    if (newDelay >= limit) {
+      newDelay = limit;
+    }
+  }
   n += 1;
   func();
-  if (n < num) setTimeout(timeout, delay, num, func, n);
+  if (n < num) setTimeout(timeout, newDelay, num, func, n, newDelay);
 }
 
 function getRGBNums(string) {
@@ -161,7 +173,7 @@ function rgb2Hex(r, g, b) {
 // Handler when the DOM is fully loaded
 document.onreadystatechange = function onreadystatechange() {
   if (document.readyState === "complete") {
-    myApp.initApplication();
+    myBase.initApplication();
   } else {
     // Do something during loading (optional)
   }
