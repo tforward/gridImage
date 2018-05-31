@@ -6,6 +6,10 @@ import { EventDelegator, getTargetId } from "./olooEvent";
 
 import { SubscribersDelegator } from "./olooObserver";
 
+if (process.env.NODE_ENV !== "production") {
+  console.log("*** RUNNING IN DEV MODE! ***");
+}
+
 const randomColor = require("randomcolor");
 
 const myBase = Object.create(null);
@@ -42,7 +46,6 @@ myBase.initApplication = function init() {
       } else if (e.type === "click") {
         myApp.broadcast("getRandomColour");
         timeout(max, setRandomColour.bind(null, min, max), 0, 300, "desc", 20, 100);
-        console.log(myApp);
       }
     }
   }

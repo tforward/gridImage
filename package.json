@@ -22,7 +22,11 @@
   },
   "homepage": "https://github.com/tforward/gridImage#readme",
   "dependencies": {
-    "randomcolor": "^0.5.3"
+    "mini-css-extract-plugin": "^0.4.0",
+    "optimize-css-assets-webpack-plugin": "^4.0.2",
+    "randomcolor": "^0.5.3",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "webpack": "^4.9.1"
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
@@ -31,7 +35,6 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^2.6.0",
-    "mini-css-extract-plugin": "^0.4.0",
     "prettier": "^1.12.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.9.1",
